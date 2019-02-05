@@ -39,84 +39,31 @@ Some of the essential characteristics include:
 * *Impossibilium nulla obligatio est* (there is no obligation to do the impossible) - it is to be determined whether an initial nine or 12 cards will be loaded. If only nine cards are loaded and no sets are visible, the deck may be virtually *"reshuffled"* and a new load of nine cards will be placed.
 * Visual design is important - a clean, appealing, playable design is employed to produce an enjoyable and, dare we add, slightly addictive quality to the game
 
-## Getting Started
+## Game Logic
+Although deceptively simple to play, from a logic perspective, the game is not quite so easy. When play begins, these are the things that need to happen:
+* Cards of the following characteristics are put in play
+  * Color - a card may have shapes that are red, green, or purple
+  * Shape Type - a card's shape may be cylinder, diamond, or squiggle
+  * Shape Fill - a card's shape may be filled solid, shaded, or outlined
+  * Card Number - a card may hold between one and three shapes
+The AI will iterate over the cards in play to determine if there are any SETs (as will the player). Depending upon the AI's delay, if the player sees a SET, they can click the SET! button and stop the AI from taking that SET, and this kind of play will repeat until there are no remaining SETs. The game will end with an event announcing the game winner, while the win will be added to the winner's game total.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
+## Development Issues
+* Each card must somehow be compared to every other card in play to determine its potential to make a SET.
+  * There are 1080 possible SET combinations. Should these be hard-coded? Is there a way to iterate through the cards in play, only to determine potential SETs?
+* Event timing is important. The AI has to know, whether there's a SET on the board very quickly or even before the board is displayed
+* Only legitimate SETs may be selected. Other cards cannot be clicked.
+* Removing a SET and placing them into a variable to store a count of SETs
+* As SETs are made, removing those cards from the "deck"
+* Placing additional cards into play as SETs are taken out of play
+* Is there a more effective way to ensure that at least one SET will appear when cards are placed?
+* What kind of look and feel features (animations, styles) will provide the best player experience?
 ## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* Adobe Xd
+* Adobe Illustrator
 
 ## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
+* **Michael Cowan**
 ## Acknowledgments
 
 * Thanks to all the folks at GA Seattle for helping to make this game possible!

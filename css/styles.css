@@ -1,0 +1,23 @@
+body {
+  font-family: 'Anton', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+playBoard {
+
+}
+
+scoreBoard {
+
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.5fr;
+  grid-template-rows: 0.5fr 1fr 1fr 0.5fr;
+  grid-template-areas: ". . ." ". . ." ". . ." ". . .";
+}
+
+controls {
+
+}
