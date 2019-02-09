@@ -37,6 +37,11 @@ var cardSize = [1, 2, 3];
 // Global Varible Array for the 81 cards in the deck
 var deck = [];
 
+// var cardImage = img src = "img/cardOutline.svg";
+
+
+// cardImage
+
 // Nested for-loop to create the card deck
 // Would like to make the properties of the deck local variables
 for (var i = 0; i < cardShape.length; i++) {
@@ -50,10 +55,10 @@ for (var i = 0; i < cardShape.length; i++) {
 }
 
 // Fisher-Yates Shuffle algorithm helper function to create unbiased random shuffle
-var shuffle = function (fred) {
-  // assign variable "m" to fred Array
+var shuffle = function (s) {
+  // assign variable "m" to s Array
   // instantiate two variables "t" and "i" to store randomized array and temporary array
-  var m = fred.length, t, i;
+  var m = s.length, t, i;
 
   // While there remain elements to shuffle…
   while (m) {
@@ -62,10 +67,10 @@ var shuffle = function (fred) {
     i = Math.floor(Math.random() * m--);
 
     // Swap it with the current element.
-    t = fred[m];
-    fred[m] = fred[i];
-    fred[i] = t;
-    console.log(fred);
+    t = s[m];
+    s[m] = s[i];
+    s[i] = t;
+    // console.log(s);
   }
 }
 // Call the Shuffle function on the deck and return the randomized deck to the global variable "deck"
@@ -75,9 +80,18 @@ console.log(deck);
 // Splice a dozen cards into a new array for the gameboard
 
 var cardsToLoad = deck.splice(deck.length - 80, 12);
-console.log(cardsToLoad);
+// console.log(cardsToLoad);
+// if cardsToLoad is an array of card descriptors, I want to map the descriptors
+// to SVG graphics, either primitives at run-time, or single SVGs - one per card
+// to do so I can take the array and loop it through 
+// for property, e.g., color: purple in cardsToLoad 
+// document.getElementById
 
-document.addEventListener("DOM Content Loaded", function {
+for (var prop in cardsToLoad) {
+  console.log(`cardsToLoad.${prop} = ${cardsToLoad[prop]}`);
+}
+
+document.addEventListener("DOM Content Loaded", function () {
   card1 = document.getElementById("card1");
   card2 = document.getElementById("card2");
   card3 = document.getElementById("card3");
