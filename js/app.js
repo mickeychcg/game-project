@@ -34,22 +34,19 @@ var cardShape = ["diamond", "squiggle", "cylinder"];
 var cardColor = ["purple", "red", "green"];
 var cardFill = ["outline", "filled", "solid"];
 var cardSize = [1, 2, 3];
-// Global Varible Array for the 81 cards in the deck
-var deck = [];
 
-// var cardImage = img src = "img/cardOutline.svg";
+// Global Variable Arrays for decks
+var fullDeck = [];
+var gameDeck = [];
+// var cardArr = [];
 
-
-// cardImage
-
-// Nested for-loop to create the card deck
-// Would like to make the properties of the deck local variables
+// Nested for-loop to create the fullDeck of 81 cards
 for (var i = 0; i < cardShape.length; i++) {
   for (var j = 0; j < cardColor.length; j++) {
     for (var k = 0; k < cardFill.length; k++) {
       for (var l = 0; l < cardSize.length; l++)
 
-        deck.push(cardShape[i] + '-' + cardColor[j] + '-' + cardFill[k] + '-' + cardSize[l]);
+        fullDeck.push(cardShape[i] + '-' + cardColor[j] + '-' + cardFill[k] + '-' + cardSize[l]);
     }
   }
 }
@@ -74,62 +71,78 @@ var shuffle = function (s) {
   }
 }
 // Call the Shuffle function on the deck and return the randomized deck to the global variable "deck"
-shuffle(deck);
-console.log(deck);
-
-// Splice a dozen cards into a new array for the gameboard
-
-var cardsToLoad = deck.splice(deck.length - 80, 12);
+shuffle(fullDeck);
+// console.log(deck);
+// Splice a dozen cards into a new array for the gameBoard
+var cardsToLoad = fullDeck.splice(fullDeck.length - 80, 12);
 // console.log(cardsToLoad);
-// if cardsToLoad is an array of card descriptors, I want to map the descriptors
-// to SVG graphics, either primitives at run-time, or single SVGs - one per card
-// to do so I can take the array and loop it through 
-// for property, e.g., color: purple in cardsToLoad 
-// document.getElementById
+// cardsToLoad is an array of card elements (e.g., "diamond-red-solid-1"), I want to map each element
+// to correspondingly named PNG files located in the ./img directory (e.g., ".img/diamond-red-solid-1.png")
+// then load that array to the DOM with document.getElementById for each of the 12 gameBoard locations
 
-for (var prop in cardsToLoad) {
-  console.log(`cardsToLoad.${prop} = ${cardsToLoad[prop]}`);
+var gameBoardCards = function () {
+  for (let cardArr of cardsToLoad)
+    gameDeck.push("./img/" + cardArr + ".png");
 }
+gameBoardCards();
 
-document.addEventListener("DOM Content Loaded", function () {
-  card1 = document.getElementById("card1");
-  card2 = document.getElementById("card2");
-  card3 = document.getElementById("card3");
-  card4 = document.getElementById("card4");
-  card5 = document.getElementById("card5");
-  card6 = document.getElementById("card6");
-  card7 = document.getElementById("card7");
-  card8 = document.getElementById("card8");
-  card9 = document.getElementById("card9");
-  card10 = document.getElementById("card10");
-  card11 = document.getElementById("card11");
-  card12 = document.getElementById("card12");
-  card13 = document.getElementById("card13");
-  card14 = document.getElementById("card14");
-  card15 = document.getElementById("card15");
+document.addEventListener('DOMContentLoaded', function () {
+  //iterate through the gameDeck array.
+  for (let x = 0; x < gameDeck.length; x++) {
+    //create an img tag for each gameDeck element
+    var imgElement = document.createElement("img");
+    //set the source of the img tag to be the current gameDeck element (which will be a URI of a png file)
+    imgElement.src = gameDeck[x];
+    //target the div with id "card(x + 1)" 
+    var cardId = "card" + (x + 1);
+    var cardElement = document.getElementById(cardId);
+    //append the img tag to the card element
+    cardElement.appendChild(imgElement);
+  }
+  //log the HTML to the console to check it
+  console.log(document.getElementById('flexBoard').innerHTML);
 });
 
-// need a function to pop or splice cards from deck to load onto the gameboard
+let loadedImage = [];
+
+function preloadImages(urls, allImagesLoadedCallback) {
+  let loadedCounter = 0;
+  let toBeLoadedNumber = urls.length;
+  urls.forEach(function (url) {
+    preloadImage(url, function () {
+      loadedCounter++;
+      console.log(`Number of loaded images: ${loadedCounter}`);
+      if (loadedCounter == toBeLoadedNumber) {
+        allImagesLoadedCallback();
+      }
+    });
+  });
+
+  function preloadImage(url, anImageLoadedCallback) {
+    img = new Image();
+    img.src = url;
+    img.onload = anImageLoadedCallback;
+    loadedImage.push(img);
+  }
+}
+
+//   // var evaluateCards = function(validSet) {
+//   //   // when a player chooses three cards from the game board
+//   //   // we assume that it's a SET and proceed to evaluate each
+//   //   // property of the three cards, as a separate array of cards
+//   //   // using each property in a series of if and if else statements
+
+//   //   if this.playerSelection[1] === this.playerSelection[2]
+//   //     && this.playerSelection[2] === this.playerSelection[3]
+//   //     && this.playerSelection[1] === this.playerSelection[3]
 
 
-// var evaluateCards = function(validSet) {
-//   // when a player chooses three cards from the game board
-//   // we assume that it's a SET and proceed to evaluate each
-//   // property of the three cards, as a separate array of cards
-//   // using each property in a series of if and if else statements
+// });
+// // // determine if the set is valid based on the
 
-//   if this.playerSelection[1] === this.playerSelection[2]
-//     && this.playerSelection[2] === this.playerSelection[3]
-//     && this.playerSelection[1] === this.playerSelection[3]
-
-
-// }
-// // determine if the set is valid based on the 
-
-// var card = function Card(cardShape, cardColor, cardSize, cardFill) {
-//   this.id = cardshape + '-' + cardColor + '-' + cardfill + '-' + cardNumber;
-//   this.shape = shape;
-//   this.color = color;
-//   this.fill = fill;
-//   this.number = number;
-// }
+// // var card = function Card(cardShape, cardColor, cardSize, cardFill) {
+// //   this.id = cardshape + '-' + cardColor + '-' + cardfill + '-' + cardNumber;
+// //   this.shape = shape;
+// //   this.color = color;
+// //   this.fill = fill;
+// //   this.number = number;

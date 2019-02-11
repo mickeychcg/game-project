@@ -8,6 +8,9 @@ body {
   padding: 0;
   height: 100%;
 }
+svg:not(:root) {
+  display: inline-block;
+}
 
 .gridContainer {
   margin: 0 auto;

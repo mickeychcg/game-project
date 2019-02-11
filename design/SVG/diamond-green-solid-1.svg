@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="248.81" height="159.73" viewBox="0 0 248.81 159.73">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#AI_Shadow_1);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #b3b3b3;
+        stroke-width: 0.5px;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4 {
+        fill: #25a74c;
+        stroke: #25a74c;
+        stroke-width: 3px;
+      }
+    </style>
+    <filter id="AI_Shadow_1" name="AI_Shadow_1">
+      <feGaussianBlur result="blur" stdDeviation="2" in="SourceAlpha"/>
+      <feOffset result="offsetBlurredAlpha" dx="4" dy="4" in="blur"/>
+      <feMerge>
+        <feMergeNode in="offsetBlurredAlpha"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <title>diamond-green-solid-1</title>
+  <g id="card">
+    <g id="cardOutline" class="cls-1">
+      <rect class="cls-2" x="0.25" y="0.25" width="248.31" height="159.23" rx="17.85"/>
+      <rect class="cls-3" x="0.25" y="0.25" width="248.31" height="159.23" rx="17.85"/>
+    </g>
+  </g>
+  <g id="diamonds">
+    <g id="diamond-green-solid-1">
+      <path id="diamondSolid" class="cls-4" d="M148.87,37.18c-.25-.66,28.32,58.23,28.32,58.23l-27.27,59.4c.51,1.13-26.85-56.92-28.1-58.82C121.23,95.11,148.87,37.18,148.87,37.18Z" transform="translate(-25.1 -16.13)"/>
+    </g>
+  </g>
+</svg>
