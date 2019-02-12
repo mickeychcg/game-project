@@ -300,7 +300,7 @@ function setBoard() {
 
 // Minimum number of cards required on the board while deck has remaining cards
 
-var board_CARD_MINIMUM = 12;
+var board_card_minimum = 12;
 var SET_FOUND_POINTS = 3;
 var findSet_PENALTY = -3;
 var GAME_OVER = false;
@@ -340,7 +340,7 @@ function newGame() {
   board = new setBoard();
 
   // Draw cards from deck and move to the board
-  for (var i = 0; i < board_CARD_MINIMUM; i++) {
+  for (var i = 0; i < board_card_minimum; i++) {
     board.addCardToBoard(board.drawCardFromDeck());
   }
 
@@ -375,7 +375,7 @@ function newGame() {
 function removeCards(setCards) {
   board.removeCardsFromBoard(setCards);
   uI.removeCards(cardIdsArray(setCards));
-  if (board.getCardsOnBoard().length < board_CARD_MINIMUM && board.sizeOfDeck != 0) {
+  if (board.getCardsOnBoard().length < board_card_minimum && board.sizeOfDeck != 0) {
     drawThree();
   }
 }
