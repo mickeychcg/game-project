@@ -8,9 +8,6 @@ body {
   padding: 0;
   height: 100%;
 }
-svg:not(:root) {
-  display: inline-block;
-}
 
 .gridContainer {
   margin: 0 auto;
@@ -18,10 +15,9 @@ svg:not(:root) {
   align-items: start;
   grid-template-columns: .25fr 1fr 1fr 0.25fr;
   grid-template-rows: .25fr 1fr 1fr .25fr;
-  grid-gap: 5px;
 }
 .gameBoard {
-  margin: 0;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -30,7 +26,11 @@ svg:not(:root) {
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 4;
-  background-color: yellow;
+  grid-gap: 20px 0 0 0;
+}
+.cardContainer .selected {
+  margin: 10px 5px -10px;
+  padding: 0;
 }
 
 .header {
@@ -64,6 +64,20 @@ svg:not(:root) {
   grid-column-end: 1;
   grid-row-start: 2;
   grid-row-end:4;
+}
+
+.cardContainer :hover {
+
+  background-clip: content-box;
+  background-color: transparent;
+  border-radius: 20px;
+
+}
+.cardContainer :active {
+  background-color: rgb(250, 91, 5, .5);
+}
+.selected {
+  background-color: rgba(200, 30, 89, 1);
 }
 
 /* #flexBoard {
