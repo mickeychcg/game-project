@@ -30,6 +30,7 @@ var board = new setBoard();
 var uI = new SetUserInterface();
 var gameLogic = new SetGameLogic();
 var selected = 0;
+var startButton;
 
 // THE DECK
 
@@ -44,7 +45,7 @@ let setCards = [];
 
 function fullDeck() {
 
-  this.card = [];
+  this.cards = [];
 
 
   var id = 0;
@@ -65,11 +66,11 @@ function fullDeck() {
   }
 
   // Splice a dozen cards into a new array for the gameBoard
-  let cardsToLoad = fullDeck.splice(fullDeck.length - 80, 12);
+  let cardsToLoad = fullDeck.splice(0, 12);
 
   let gameBoardCards = function () {
-    for (let cardArr of cardsToLoad)
-      gameDeck.push("./img/" + cardArr + ".png");
+    for (let card of cardsToLoad)
+      gameDeck.push("./img/" + card + ".png");
   }
   gameBoardCards();
 
@@ -97,6 +98,7 @@ function fullDeck() {
 }
 // EVENT LISTENERS
 document.addEventListener('DOMContentLoaded', function () {
+  // startButton.addEventListener('click', )
   for (let x = 0; x < gameDeck.length; x++) {
     var imgElement = document.createElement("img");
     imgElement.src = gameDeck[x];
