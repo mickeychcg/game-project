@@ -71,71 +71,95 @@ nameImage(drawnCards);
 // console.log("drawnCards", drawnCards);
 
 for (let i = 0; i < 12; i++) {
-  // console.log(drawnCards[i]);
   var index = [i];
+  var selectedIndices = [];
+  var cardElem = [];
   var gameBoard = document.getElementById('gameBoard');
-  var div = document.createElement('div');
-  div.setAttribute('id', index);
-  var elem = document.createElement('img');
-  elem.src = gameDeck[i];
-  elem.setAttribute("data-shape", drawnCards[i].shape)
-  elem.setAttribute("data-color", drawnCards[i].color)
-  elem.setAttribute("data-fill", drawnCards[i].fill)
-  elem.setAttribute("data-number", drawnCards[i].number)
-  // console.log("Card shape of drawnCards is: " + drawnCards[i].shape);
-  div.appendChild(elem);
-  gameBoard.appendChild(div);
-  // var pos = div.toString().IndexOf(1);
-  elem.addEventListener('click', function (e) {
-    cardsSelected.forEach((elem, index) {
-      if (div.id === this.dataset.id) {
-        cardSelected.pop(i, 1);
-        e.target.id.remove('div');
-      } else {
-        e.target.id.add('div');
-      }
-    });
-  }
+  var cardSlot = document.createElement('div');
+  cardSlot.setAttribute('id', index);
+  cardElem = document.createElement('img');
+  cardElem.src = gameDeck[i];
+  cardElem.setAttribute("data-shape", drawnCards[i].shape)
+  cardElem.setAttribute("data-color", drawnCards[i].color)
+  cardElem.setAttribute("data-fill", drawnCards[i].fill)
+  cardElem.setAttribute("data-number", drawnCards[i].number)
+  cardSlot.appendChild(cardElem);
+  gameBoard.appendChild(cardSlot);
+  console.log(cardElem[i]);
+  cardElem.addEventListener('click', function (e) {
+    selectedIndices.push(e.target.id);
+    console.log(selectedIndices);
+  });
 }
 
 
-
-    //     if (selectedCards.length !== 3) {
-    //       const card = Object.assign({}, this.dataset);
-    //       selectedCards.push(card);
-    //       if (selectedCards.length === 3)
-    //         var first = div[index];
-    //     console.log(e.currentTarget.id);
-    // selectedCards.forEach((elem, i);
-
-
-
-// for (var i = 0; i < setCards.length; i++) {
-//   var pos = this.gameDeck.indexOf(setCards[i]);
-//   if (pos >= 0) {
-//     this.setCards.splice(pos, 1);
-
-// let selected = function (drawnCards) {
-//   for (i = 0; i < 4; i++) {
-//     div.id === drawnCards;
-//     console.log(div.id);
-//     return selected;
-//   }
+// for(let i = 0; i < 12; i++) {
+//   // console.log(drawnCards[i]);
+//   var index = [i];
+//   var gameBoard = document.getElementById('gameBoard');
+//   var div = document.createElement('div');
+//   div.setAttribute('id', index);
+//   var elem = document.createElement('img');
+//   elem.src = gameDeck[i];
+//   elem.setAttribute("data-shape", drawnCards[i].shape)
+//   elem.setAttribute("data-color", drawnCards[i].color)
+//   elem.setAttribute("data-fill", drawnCards[i].fill)
+//   elem.setAttribute("data-number", drawnCards[i].number)
+//   // console.log("Card shape of drawnCards is: " + drawnCards[i].shape);
+//   div.appendChild(elem);
+//   gameBoard.appendChild(div);
+//   // var pos = div.toString().IndexOf(1);
+//   elem.addEventListener('click', function (e) {
+//     console.log(e.target.getAttribute(''));
+//   });
 // }
-// selected();
-// above add .classlist.add(style) to the gameBoard and the cardHolder
-// rename the 'div' to something more descriptive
 
 
-// document.getElementById(index).appendChild(elem);
-// console.log(gameDeck[i]);
+//     if (selectedCards.length !== 3) {
+  //       const card = Object.assign({}, this.dataset);
+  //       selectedCards.push(card);
+  //       if (selectedCards.length === 3)
+  //         var first = div[index];
+  //     console.log(e.currentTarget.id);
+  // selectedCards.forEach((elem, i);
+
+
+
+  // for (var i = 0; i < setCards.length; i++) {
+    //   var pos = this.gameDeck.indexOf(setCards[i]);
+    //   if (pos >= 0) {
+      //     this.setCards.splice(pos, 1);
+
+      // let selected = function (drawnCards) {
+        //   for (i = 0; i < 4; i++) {
+          //     div.id === drawnCards;
+          //     console.log(div.id);
+          //     return selected;
+          //   }
+          // }
+          // selected();
+          // above add .classlist.add(style) to the gameBoard and the cardHolder
+          // rename the 'div' to something more descriptive
+
+
+          // document.getElementById(index).appendChild(elem);
+          // console.log(gameDeck[i]);
 
 
 
 
 
-// style the cards with hover, click before and after
-//create the set picker - a series of nested for loops to compare
-// card0 to card1, card 2, etc. then card 1 to card0, ect and a third
-// loop to compare card 2 to cards 0 and 1, etc.
-// and call the set evaluator function to determine if the 3 cards are a setInterval(() => {
+          // style the cards with hover, click before and after
+          //create the set picker - a series of nested for loops to compare
+          // card0 to card1, card 2, etc. then card 1 to card0, ect and a third
+          // loop to compare card 2 to cards 0 and 1, etc.
+          // and call the set evaluator function to determine if the 3 cards are a setInterval(() => {
+
+            // cardsSelected.forEach((elem, index) {
+            //   if (div.id === this.dataset.id) {
+            //     cardSelected.pop(i, 1);
+            //     e.target.id.remove('div');
+            //   } else {
+            //     e.target.id.add('div');
+            //   }
+            // });
