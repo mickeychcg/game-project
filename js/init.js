@@ -50,7 +50,6 @@ function shuffle(deck) {
 }
 
 cards = shuffle(cards);
-
 // generalized draw function
 function draw(num) {
   return cards.splice(0, num);
@@ -60,8 +59,6 @@ function draw(num) {
 
 
 let drawnCards = draw(12);
-// console.log('deck minus 12', shuffledDeck);
-// console.log("cards drawn " + drawnCards);
 
 // concatenate names to card array
 let gameDeck = [];
@@ -71,52 +68,74 @@ function nameImage(drawnCards) {
   }
 }
 nameImage(drawnCards);
-// console.log(fullDeck);
-
-console.log("drawnCards", drawnCards);
+// console.log("drawnCards", drawnCards);
 
 for (let i = 0; i < 12; i++) {
-  console.log(drawnCards[i]);
-  var index = 'card' + [i];
+  // console.log(drawnCards[i]);
+  var index = [i];
   var gameBoard = document.getElementById('gameBoard');
   var div = document.createElement('div');
   div.setAttribute('id', index);
   var elem = document.createElement('img');
   elem.src = gameDeck[i];
-  // console.log(drawnCards);
-  elem.setAttribute("data-shape", drawnCards[i].cardShape)
-  elem.setAttribute("data-color", drawnCards[i].cardColor)
-  elem.setAttribute("data-fill", drawnCards[i].cardFill)
-  elem.setAttribute("data-number", drawnCards[i].cardSize)
-  // console.log(elem);
+  elem.setAttribute("data-shape", drawnCards[i].shape)
+  elem.setAttribute("data-color", drawnCards[i].color)
+  elem.setAttribute("data-fill", drawnCards[i].fill)
+  elem.setAttribute("data-number", drawnCards[i].number)
+  // console.log("Card shape of drawnCards is: " + drawnCards[i].shape);
   div.appendChild(elem);
   gameBoard.appendChild(div);
+  // var pos = div.toString().IndexOf(1);
   elem.addEventListener('click', function (e) {
-    console.log(e.target);
-  });
-
-
-  // above add .classlist.add(style) to the gameBoard and the cardHolder
-  // rename the 'div' to something more descriptivecd
-
-
-  // document.getElementById(index).appendChild(elem);
-  // console.log(gameDeck[i]);
-
+    cardsSelected.forEach((elem, index) {
+      if (div.id === this.dataset.id) {
+        cardSelected.pop(i, 1);
+        e.target.id.remove('div');
+      } else {
+        e.target.id.add('div');
+      }
+    });
+  }
 }
 
-// let gameBoardCards = function () {
-//   for (let card of cardsToLoad)
-//     gameDeck.push("./img/" + card + ".png");
+
+
+    //     if (selectedCards.length !== 3) {
+    //       const card = Object.assign({}, this.dataset);
+    //       selectedCards.push(card);
+    //       if (selectedCards.length === 3)
+    //         var first = div[index];
+    //     console.log(e.currentTarget.id);
+    // selectedCards.forEach((elem, i);
+
+
+
+// for (var i = 0; i < setCards.length; i++) {
+//   var pos = this.gameDeck.indexOf(setCards[i]);
+//   if (pos >= 0) {
+//     this.setCards.splice(pos, 1);
+
+// let selected = function (drawnCards) {
+//   for (i = 0; i < 4; i++) {
+//     div.id === drawnCards;
+//     console.log(div.id);
+//     return selected;
+//   }
 // }
-// gameBoardCards();
+// selected();
+// above add .classlist.add(style) to the gameBoard and the cardHolder
+// rename the 'div' to something more descriptive
 
 
-// add a listener for each of the cards
+// document.getElementById(index).appendChild(elem);
+// console.log(gameDeck[i]);
+
+
+
+
 
 // style the cards with hover, click before and after
 //create the set picker - a series of nested for loops to compare
 // card0 to card1, card 2, etc. then card 1 to card0, ect and a third
 // loop to compare card 2 to cards 0 and 1, etc.
 // and call the set evaluator function to determine if the 3 cards are a setInterval(() => {
-
