@@ -1,13 +1,13 @@
 
 // function creates the deck
 let cards = [];
+let cardShape = ["diamond", "squiggle", "cylinder"];
+let cardColor = ["purple", "red", "green"];
+let cardFill = ["outline", "filled", "solid"];
+let cardSize = [1, 2, 3];
 function fullDeck() {
 
   var id = 0;
-  let cardShape = ["diamond", "squiggle", "cylinder"];
-  let cardColor = ["purple", "red", "green"];
-  let cardFill = ["outline", "filled", "solid"];
-  let cardSize = [1, 2, 3];
   var card = {};
   var newCard;
   // Nested for-loop to create the fullDeck of 81 cards
@@ -30,10 +30,6 @@ function fullDeck() {
   }
 }
 fullDeck();
-// console.log("just made the deck", cards[0]);
-// console.log("just made the deck", cards[1]);
-// console.log("just made the deck", cards[2]);
-// console.log("just made the deck", cards[3]);
 
 // Fisher-Yates Shuffle
 let shuffledDeck;
@@ -54,10 +50,7 @@ cards = shuffle(cards);
 function draw(num) {
   return cards.splice(0, num);
 }
-
 // draw 12 initial gameboard cards
-
-
 let drawnCards = draw(12);
 
 // concatenate names to card array
@@ -70,60 +63,119 @@ function nameImage(drawnCards) {
 nameImage(drawnCards);
 // console.log("drawnCards", drawnCards);
 
+var selectedCards = [];
 for (let i = 0; i < 12; i++) {
-  var index = [i];
-  var selectedIndices = [];
-  var cardElem = [];
+  // var index = [i];
+  var cardElem = null;
   var gameBoard = document.getElementById('gameBoard');
+  gameBoard.setAttribute('class', 'gameBoard');
   var cardSlot = document.createElement('div');
-  cardSlot.setAttribute('id', index);
   cardElem = document.createElement('img');
+  cardElem.setAttribute('id', i);
   cardElem.src = gameDeck[i];
+  cardElem.setAttribute("class", "cardElem");
   cardElem.setAttribute("data-shape", drawnCards[i].shape)
   cardElem.setAttribute("data-color", drawnCards[i].color)
   cardElem.setAttribute("data-fill", drawnCards[i].fill)
   cardElem.setAttribute("data-number", drawnCards[i].number)
   cardSlot.appendChild(cardElem);
   gameBoard.appendChild(cardSlot);
-  console.log(cardElem[i]);
   cardElem.addEventListener('click', function (e) {
-    selectedIndices.push(e.target.id);
-    console.log(selectedIndices);
+    selectedCards.push(e.target.id);
+    // console.log(selectedCards)
   });
 }
+// console.log(selectedCards);
+// console.log(cardColor);
+function checkColor(clickedCards) {
+  console.log(clickedCards[0]);
+  console.log(clickedCards[1]);
+  console.log(clickedCards[2]);
 
+  if (clickedCards[0].cardColor == clickedCards[1].cardColor && clickedCards[0].cardColor == clickedCards[2].cardColor && clickedCards[1].cardColor == clickedCards[2].cardColor) {
+    return true;
+  } else if (clickedCards[0].cardColor != clickedCards[1].cardColor && clickedCards[0].cardColor != clickedCards[2].cardColor && selectedCards[1].cardColor != selectedCards[2].cardColor) {
+    return true;
+  } else {
+    return false;
+  }
+};
+checkColor(selectedCards);
+// console.log("Selected cards checkColor results: ", selectedCards);
+// checkColor(selectedCards);
+// console.log(selectedCards);
 
-// for(let i = 0; i < 12; i++) {
-//   // console.log(drawnCards[i]);
-//   var index = [i];
-//   var gameBoard = document.getElementById('gameBoard');
-//   var div = document.createElement('div');
-//   div.setAttribute('id', index);
-//   var elem = document.createElement('img');
-//   elem.src = gameDeck[i];
-//   elem.setAttribute("data-shape", drawnCards[i].shape)
-//   elem.setAttribute("data-color", drawnCards[i].color)
-//   elem.setAttribute("data-fill", drawnCards[i].fill)
-//   elem.setAttribute("data-number", drawnCards[i].number)
-//   // console.log("Card shape of drawnCards is: " + drawnCards[i].shape);
-//   div.appendChild(elem);
-//   gameBoard.appendChild(div);
-//   // var pos = div.toString().IndexOf(1);
-//   elem.addEventListener('click', function (e) {
-//     console.log(e.target.getAttribute(''));
-//   });
-// }
+// function checkShape(setCards) {
+//   if (setCards[0].shape == setCards[1].shape && setCards[0].shape == setCards[2].shape && setCards[1].shape == setCards[2].shape) {
+//     return true;
+//   } else if (setCards[0].shape != setCards[1].shape && setCards[0].shape != setCards[2].shape && setCards[1].shape != setCards[2].shape) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
 
+// function checkFill(setCards) {
+//   if (setCards[0].fill == setCards[1].fill && setCards[0].fill == setCards[2].fill && setCards[1].fill == setCards[2].fill) {
+//     return true;
+//   } else if (setCards[0].fill != setCards[1].fill && setCards[0].fill != setCards[2].fill && setCards[1].fill != setCards[2].fill) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
 
-//     if (selectedCards.length !== 3) {
-  //       const card = Object.assign({}, this.dataset);
-  //       selectedCards.push(card);
-  //       if (selectedCards.length === 3)
-  //         var first = div[index];
-  //     console.log(e.currentTarget.id);
-  // selectedCards.forEach((elem, i);
+// function checkNumber(setCards) {
+//   if (setCards[0].number == setCards[1].number && setCards[0].number == setCards[2].number && setCards[1].number == setCards[2].number) {
+//     return true;
+//   } else if (setCards[0].number != setCards[1].number && setCards[0].number != setCards[2].number && setCards[1].number != setCards[2].number) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
 
+// // Returns the number of sets in the given group of setCards
 
+// function numberOfSets(setCards) {
+//   count = 0;
+//   q = 0;
+//   while (setCards.length - q >= 3) {
+//     card1 = setCards[q];
+//     for (i = q + 1; i < setCards.length - 1; i++) {
+//       card2 = setCards[i];
+//       for (r = i + 1; r < setCards.length; r++) {
+//         card3 = setCards[r];
+//         if (this.isASet([card1, card2, card3])) {
+//           count++;
+//         }
+//       }
+//     }
+//     q += 1;
+//   }
+//   return (count);
+//   console.log(count);
+// };
+
+// // Returns a set of setCards if an array or none
+
+// function thisIsASet(setCards) {
+//   q = 0;
+//   while (setCards.length - q >= 3) {
+//     card1 = setCards[q];
+//     for (i = q + 1; i < setCards.length - 1; i++) {
+//       card2 = setCards[i];
+//       for (r = i + 1; r < setCards.length; r++) {
+//         card3 = setCards[r];
+//         if (this.isASet([card1, card2, card3])) {
+//           return [card1, card2, card3];
+//         }
+//       }
+//     }
+//     q += 1;
+//   }
+//   return ([]);
+// };
 
   // for (var i = 0; i < setCards.length; i++) {
     //   var pos = this.gameDeck.indexOf(setCards[i]);
