@@ -1,12 +1,37 @@
+// Global Variables
+
+const cardShape = ["diamond", "squiggle", "cylinder"];
+const cardColor = ["purple", "red", "green"];
+const cardFill = ["outline", "filled", "solid"];
+const cardSize = [1, 2, 3];
+let cards = [];
+let drawnCards = [];
+let gameDeck = [];
+var selectedCards = [];
+let shuffledDeck;
+let dealThree = [];
+
+function startGame() {
+
+  fullDeck(); //returns 81 cards in cards array
+
+  cards = shuffle(cards); //redefine cards by shuffling the cards array 
+
+  drawnCards = draw(12); // rededfine drawnCards array to have 12 cards from shuffled deck
+
+  nameImage(drawnCards); // organizes img file naming and creates gameDeck array
+
+  createGameCards(drawnCards.length); // use drawnCards global array and gameDeck global array to create game deck
+
+}
+
+startGame();
+
+
 
 // function creates the deck
-let cards = [];
-let cardShape = ["diamond", "squiggle", "cylinder"];
-let cardColor = ["purple", "red", "green"];
-let cardFill = ["outline", "filled", "solid"];
-let cardSize = [1, 2, 3];
 function fullDeck() {
-
+  console.log('full deck')
   var id = 0;
   var card = {};
   var newCard;
@@ -29,11 +54,12 @@ function fullDeck() {
     }
   }
 }
-fullDeck();
+// fullDeck();
 
 // Fisher-Yates Shuffle
-let shuffledDeck;
+
 function shuffle(deck) {
+
   var shuffledDeck = [];
   var rand = 0;
   while (deck.length > 0) {
@@ -43,64 +69,141 @@ function shuffle(deck) {
     shuffledDeck.push(card[0]);
   }
   return Array.from(shuffledDeck);
+
 }
 
-cards = shuffle(cards);
+
+
 // generalized draw function
 function draw(num) {
+  console.log('draw')
   return cards.splice(0, num);
+
 }
-// draw 12 initial gameboard cards
-let drawnCards = draw(12);
+
 
 // concatenate names to card array
-let gameDeck = [];
 function nameImage(drawnCards) {
   for (let card of drawnCards) {
     gameDeck.push("./img/" + card.image + ".png");
   }
 }
-nameImage(drawnCards);
 // console.log("drawnCards", drawnCards);
 
-var selectedCards = [];
-for (let i = 0; i < 12; i++) {
-  // var index = [i];
-  var cardElem = null;
-  var gameBoard = document.getElementById('gameBoard');
-  gameBoard.setAttribute('class', 'gameBoard');
-  var cardSlot = document.createElement('div');
-  cardElem = document.createElement('img');
-  cardElem.setAttribute('id', i);
-  cardElem.src = gameDeck[i];
-  cardElem.setAttribute("class", "cardElem");
-  cardElem.setAttribute("data-shape", drawnCards[i].shape)
-  cardElem.setAttribute("data-color", drawnCards[i].color)
-  cardElem.setAttribute("data-fill", drawnCards[i].fill)
-  cardElem.setAttribute("data-number", drawnCards[i].number)
-  cardSlot.appendChild(cardElem);
-  gameBoard.appendChild(cardSlot);
-  cardElem.addEventListener('click', function (e) {
-    selectedCards.push(e.target.id);
-    // console.log(selectedCards)
-  });
-}
-// console.log(selectedCards);
-// console.log(cardColor);
-function checkColor(clickedCards) {
-  console.log(clickedCards[0]);
-  console.log(clickedCards[1]);
-  console.log(clickedCards[2]);
 
-  if (clickedCards[0].cardColor == clickedCards[1].cardColor && clickedCards[0].cardColor == clickedCards[2].cardColor && clickedCards[1].cardColor == clickedCards[2].cardColor) {
-    return true;
-  } else if (clickedCards[0].cardColor != clickedCards[1].cardColor && clickedCards[0].cardColor != clickedCards[2].cardColor && selectedCards[1].cardColor != selectedCards[2].cardColor) {
-    return true;
-  } else {
-    return false;
+// add the below to startGame
+
+//create this as its own fx
+// this fx will use the new draw cards
+
+// createGameDeck(drawnCards){
+//   let thing = drawnCards
+// }
+
+// put event listeners in different file or area of this file
+
+function createGameCards(numCards) {
+
+  console.log('createDeck');
+  for (let i = 0; i < numCards; i++) {
+    // var index = [i];
+    var cardElem = null;
+    var gameBoard = document.getElementById('gameBoard');
+    gameBoard.setAttribute('class', 'gameBoard');
+    var cardSlot = document.createElement('div');
+    cardElem = document.createElement('img');
+    cardElem.setAttribute('id', i);
+    cardElem.src = gameDeck[i];
+    cardElem.setAttribute("class", "cardElem");
+    cardElem.setAttribute("data-shape", drawnCards[i].shape)
+    cardElem.setAttribute("data-color", drawnCards[i].color)
+    cardElem.setAttribute("data-fill", drawnCards[i].fill)
+    cardElem.setAttribute("data-number", drawnCards[i].number)
+    cardSlot.appendChild(cardElem);
+    gameBoard.appendChild(cardSlot);
+    cardElem.addEventListener('click', cardSelectHandler) // event listener is assuming you will use param 'event' NOT 'e'
   }
-};
-checkColor(selectedCards);
+
+}
+
+
+/** Game Helper Functions */
+
+//monitor selectedCards.length and run what is necessary
+function cardSelectHandler() {
+
+  console.log('length', selectedCards.length)
+  if (selectedCards.length != 2) {
+    console.log('not long enough, push it')
+    selectedCards.push(event.target.id);
+  }
+  else if (selectedCards.length = 2) {
+    console.log('hey! check the set')
+    setCheck();
+  }
+}
+
+// evaluate selectedCards set array
+function setCheck() {
+  console.log('checking set in setCheck()');
+  //if set is true
+  removeSet()
+  //let selectedCards = [] //reset selectedCards array
+
+  dealOut();
+
+}
+
+function removeSet() {
+  console.log('removing set')
+  //remove dom element by looping through array of selectedCards
+  // document.removeElement(selectedCards[i]) not correct syntax
+  //  
+
+
+}
+
+//functionality for adding three cards
+function dealOut() {
+  dealThree = draw(3) // draw 3 new cards 
+  nameImage(dealThree);
+  createGameCards(dealThree.length)
+}
+
+
+  //     if (e.target.length != 3) {
+  //       selectedCards.push(e.target.id);
+
+  //     } else (selectedCards.length === 3); {
+  //       checkColor(selectedCards);
+  //     }
+  //     return false;
+  //   });
+  // }
+  // console.log(selectedCards);
+
+
+  // console.log("clicks ", selectedCards);
+
+  // console.log(selectedCards)
+
+
+  // console.log(selectedCards);
+  // console.log(cardColor);
+  // function checkColor(clickedCards) {
+  //   console.log(clickedCards[0]);
+  //   console.log(clickedCards[1]);
+  //   console.log(clickedCards[2]);
+
+  //   if (clickedCards[0].cardColor == clickedCards[1].cardColor && clickedCards[0].cardColor == clickedCards[2].cardColor && clickedCards[1].cardColor == clickedCards[2].cardColor) {
+  //     return true;
+  //   } else if (clickedCards[0].cardColor != clickedCards[1].cardColor && clickedCards[0].cardColor != clickedCards[2].cardColor && selectedCards[1].cardColor != selectedCards[2].cardColor) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  //   console.log(selectedCards);
+  // };
 // console.log("Selected cards checkColor results: ", selectedCards);
 // checkColor(selectedCards);
 // console.log(selectedCards);
