@@ -18,7 +18,7 @@ let dealThree = [];
 var mainDeck = [];
 var selectedSlots = [];
 var cardsOnBoard = {
-  0: null,
+  0: null,  
   1: null,
   2: null,
   3: null,
@@ -40,7 +40,7 @@ function startGame() {
 
   drawnCards = draw(12); // 12 cards from shuffled deck to make up initial game deck
 
-  nameImage(drawnCards); // Assigns img files to deck data array and creates gameDeck array
+  // nameImage(drawnCards); // Assigns img files to deck data array and creates gameDeck array
 
   fillTheCardsOnBoardObject();
 
@@ -49,8 +49,6 @@ function startGame() {
 }
 
 startGame();
-
-
 
 // // Generate random cards
 // function createCard() {
@@ -96,7 +94,6 @@ function shuffle(deck) {
   return Array.from(shuffledDeck);
 }
 
-
 // //  Push 30 random cards into the deck
 // for (let i = 0; i < 30; i++) {
 //   mainDeck.push(createCard());
@@ -118,6 +115,8 @@ for (let i = 0; i < 12; i++) {
 var button = document.createElement("button");
 button.textContent = "SET!"
 button.addEventListener('click', function (e) {
+  cardSelectHandler();
+  setCheck();
   removeSelectedCards();
   fillTheCardsOnBoardObject();
   renderCardsOnBoard();
