@@ -36,18 +36,21 @@ body {
 }
 .cardElem :hover {
 
-  background-clip: content-box;
-  background-color: transparent;
-  border-radius: 20px;
+  /* background-clip: content-box; */
+  background-color: blue;
+  /* border-radius: 20px; */
 
 }
-.cardElem :active {
+/* .cardElem :active {
   background-color: rgb(250, 91, 5, .5);
+} */
+.cardElem {
+
+
 }
 .selected {
-  background-color: rgba(200, 30, 89, 1);
-}
 
+}
 .titles {
   display: flex;
   flex-direction: row;

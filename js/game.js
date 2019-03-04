@@ -13,31 +13,51 @@ let gameDeck = [];
 let selectedCards = [];
 let shuffledDeck;
 let dealThree = [];
-// let selectedSlots = [];
 
-// This calls helper functions to SETUP and START the game
+
+var mainDeck = [];
+var selectedSlots = [];
+var cardsOnBoard = {
+  0: null,
+  1: null,
+  2: null,
+  3: null,
+  4: null,
+  5: null,
+  6: null,
+  7: null,
+  8: null,
+  9: null,
+  10: null,
+  11: null
+};
 
 function startGame() {
 
   fullDeck(); // Returns 81 cards in cards array
 
-  cards = shuffle(cards); // Redefine cards by shuffling the cards array 
+  // cards = shuffle(cards); // Redefine cards by shuffling the cards array 
 
   drawnCards = draw(12); // 12 cards from shuffled deck to make up initial game deck
 
   nameImage(drawnCards); // Assigns img files to deck data array and creates gameDeck array
 
-  createGameCards(drawnCards.length); // Use drawnCards global array and gameDeck global array to create game deck
+  fillTheCardsOnBoardObject();
+
+  // createGameCards(drawnCards.length); // Use drawnCards global array and gameDeck global array to create game deck
 
 }
 
 startGame();
 
-// Functions to SETUP and STARTUP a game
 
-/* This function creates the entire deck of 81 cards as an object array
-but does not include the card images */
 
+// // Generate random cards
+// function createCard() {
+//   var colors = ['red', 'blue', 'green'];
+//   var colorIndex = Math.floor(Math.random() * 3);
+//   return { color: colors[colorIndex], number: Math.floor(Math.random() * 5) };
+// }
 function fullDeck() {
   // console.log('full deck')
   var id = 0;
@@ -57,41 +77,103 @@ function fullDeck() {
           newCard = Object.assign({}, card);
           cards.push(newCard);
         }
-      } 
+      }
     }
   }
 }
 
-// add the below to startGame
+// Fisher-Yates Shuffle to randomize the deck
+function shuffle(deck) {
 
-//create this as its own fx
-// this fx will use the new draw cards
+  var shuffledDeck = [];
+  var rand = 0;
+  while (deck.length > 0) {
+    rand = Math.floor(Math.random() * deck.length);
+    var card = deck.splice(rand, 1);
+    // console.log("this is what we spliced", card[0]);
+    shuffledDeck.push(card[0]);
+  }
+  return Array.from(shuffledDeck);
+}
 
 
-  function createGameCards(numCards) {
-  // console.log('createDeck');
-  for (let i = 0; i < numCards; i++) {
-  var cardElem = null;
-  var gameBoard = document.getElementById('gameBoard');
-  gameBoard.setAttribute('class', 'gameBoard');
-  var cardSlot = document.createElement('div');
-  // This function fills the cardsOnBoard div cardSlots
-  cardElem = document.createElement('img');
-  cardElem.setAttribute('id', i);
-  cardElem.src = gameDeck[i];
-  cardElem.setAttribute("class", "cardElem");
-  cardElem.setAttribute("data-shape", drawnCards[i].shape);
-  cardElem.setAttribute("data-color", drawnCards[i].color);
-  cardElem.setAttribute("data-fill", drawnCards[i].fill);
-  cardElem.setAttribute("data-number", drawnCards[i].number);
-  cardSlot.appendChild(cardElem);
-  gameBoard.appendChild(cardSlot);
-  cardElem.addEventListener('click', cardSelectHandler) // event listener is assuming you will use param 'event' NOT 'e'
+// //  Push 30 random cards into the deck
+// for (let i = 0; i < 30; i++) {
+//   mainDeck.push(createCard());
+// }
+// console.log(mainDeck);
+var div;
+
+// Create the gameboard
+for (let i = 0; i < 12; i++) {
+  div = document.createElement('div');
+  div.id = i;
+  div.classList.add("cardslot");
+  div.addEventListener('click', function (e) {
+    selectedSlots.push(this.id);
+    this.classList.add('green');
+  });
+  document.body.appendChild(div);
+}
+var button = document.createElement("button");
+button.textContent = "SET!"
+button.addEventListener('click', function (e) {
+  removeSelectedCards();
+  fillTheCardsOnBoardObject();
+  renderCardsOnBoard();
+});
+document.body.appendChild(button);
+
+// Draw a number of cards from the mainDeck
+function draw(num) {
+  return mainDeck.splice(0, num);
+}
+console.log(mainDeck);
+
+function removeSelectedCards() {
+  var selectedCards = [];
+  selectedSlots.forEach(function (slotId) {
+    selectedCards.push(Object.assign({}, cardsOnBoard[slotId]));
+    // console.log(selectedCards)
+  });
+  // Here you would check to see if it is a set
+
+  // To remove them if it is a set, do this
+  selectedSlots.forEach(function (slotId) {
+    cardsOnBoard[slotId] = null;
+  });
+  // document.getElementsByClassName('cardslot').classList.remove('green');
+}
+//something
+
+function fillTheCardsOnBoardObject() {
+  for (let key in cardsOnBoard) {
+    if (!cardsOnBoard[key]) {
+      cardsOnBoard[key] = draw(1)[0];
+      console.log("This is the cardsOnBoard object ", cardsOnBoard[key]);
+    }
   }
 }
-      
-/** GAME HELPER FUNCTIONS                                                           */
-// Fisher-Yates Shuffle to randomize the deck
+
+function renderCardsOnBoard() {
+  var str = '';
+  for (let key in cardsOnBoard) {
+        // document.getElementById(key).src = './img' + cardsOnBoard[key].shape + cardsOnBoard[key].color + cardsOnBoard[key].fill + cardsOnBoard[key].number + '.img';
+    document.getElementById(key).textContent = cardsOnBoard[key].shape + cardsOnBoard[key].color + cardsOnBoard[key].fill + cardsOnBoard[key].number;
+    // document.getElementsByTagName(key).src = './img/squiggle-red-outline-1.png';
+    // cardsOnBoard.setAttribute('id', i);
+  }
+  mainDeck.forEach(function (card) {
+    str = str + card.shape + card.color + card.fill + card.number;
+    str = str + card.color + card.number + ', ';
+    // document.getElementById('mainDeck').textContent = str;
+  })
+}
+fillTheCardsOnBoardObject();
+renderCardsOnBoard();
+
+// console.log('This is the final mainDeck ' + mainDeck);
+
 function shuffle(deck) {
 
   var shuffledDeck = [];
@@ -110,7 +192,7 @@ function draw(num) {
   // console.log('draw')
   return cards.splice(0, num);
 }
-console.log('this is cards...', cards);
+
 
 // This concatenate img names to card array objects
 function nameImage(drawnCards) {
@@ -118,6 +200,12 @@ function nameImage(drawnCards) {
     gameDeck.push("./img/" + card.image + ".png");
   }
 }
+// This concatenate img names to card array objects
+// function nameImage(drawnCards) {
+//   for (let card of drawnCards) {
+//     gameDeck.push("./img/" + card.image + ".png");
+//   }
+// }
 // console.log(gameDeck);
 
 // Determine whether a user has chosen three cards or not monitor selectedCards.length and run what is necessary
@@ -138,15 +226,15 @@ function cardSelectHandler() {
 // Evaluates selectedCards for a set
 function setCheck(dataSet) {
   //if set is true
-  if (checkColor(dataSet) && checkShape (dataSet) && checkFill(dataSet) && checkNumber(dataSet)) {
-      console.log("it's a set");
-      var setArray = JSON.parse(JSON.stringify(dataSet));
-      console.log("now it's an object array... " , setArray);
+  if (checkColor(dataSet) && checkShape(dataSet) && checkFill(dataSet) && checkNumber(dataSet)) {
+    console.log("it's a set");
+    var setArray = JSON.parse(JSON.stringify(dataSet));
+    console.log("now it's an object array... ", setArray);
   }
 }
 // Set quality checker color function
-function checkColor(setCards)  {
-  console.log("this" , setCards[1].color);
+function checkColor(setCards) {
+  console.log("this", setCards[1].color);
   if (setCards[0].color == setCards[1].color && setCards[0].color == setCards[2].color && setCards[1].color == setCards[2].color) {
     console.log('first true color statement hit!')
     return true;
@@ -197,39 +285,3 @@ function checkNumber(setCards) {
     return false;
   }
 }
-
-// // Removed set - RENAME
-// function removeSelectedCards() {
-//   var selectedCards = [];
-//   selectedSlots.forEach(function (slotId) {
-//     selectedCards.push(Object.assign({}, cardsOnBoard[slotId]));
-//   });
-
-//   // To remove them if it is a set, do this
-//   selectedSlots.forEach(function (slotId) {
-//     cardsOnBoard[slotId] = null;
-//   });
-// }
-  
-// //functionality for adding three cards
-// function dealOut() {
-//   dealThree = draw(3) // draw 3 new cards 
-//   nameImage(dealThree);
-//   createGameCards(dealThree.length)
-// }
-
-/* Missing functionality -
-- Draw 3 add'l cards in the event there are no sets on the game board
-  - ensure that newly drawn cards continue to remove cards from the full deck
-  - once set is a set, clear the temporary array in which the set was stored - dataSet
-- Messages for Set and no Set
-- Scoring
-- Timer
-- Styling
-- 
-style the cards with hover, click before and after
-create the set picker - a series of nested for loops to compare
-card0 to card1, card 2, etc. then card 1 to card0, ect and a third
-loop to compare card 2 to cards 0 and 1, etc.
-and call the set evaluator function to determine if the 3 cards are a set
-*/
