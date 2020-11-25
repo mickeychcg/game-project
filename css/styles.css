@@ -1,56 +1,40 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Anton', sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-.wrapper {
-  display: grid;
-  /* align-items: start; */
-  grid-template-columns: .25fr 1fr 1fr 0.25fr;
-  grid-template-rows: .25fr 1fr 1fr .25fr;
-}
-.header {
-  background-color: #FFC503;
-  grid-area: 1/1/1/4;
-}
-.gameBoard {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  /* grid-template-rows: 1fr 1fr 1fr 1fr;
-  align-content: start;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 4; */
-  grid-gap: 20px 0 0 0;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  margin: auto;
 }
+/* .gameboard {
+  grid-column-start: 2;
+}  */
+.header {
+  padding: 15px;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  background-color: #FFC503;
+  height: 100px;
+}
+.cardslot {
+  height: auto;
+  
+}
+/*
 .cardElem {
-  /* margin: 10px 5px -10px; */
+  margin: 10px 5px -10px;
   padding: 0;
 }
 .cardElem :hover {
 
-  /* background-clip: content-box; */
+  background-clip: content-box;
   background-color: blue;
-  /* border-radius: 20px; */
+  border-radius: 20px;
 
 }
-/* .cardElem :active {
+.cardElem :active {
   background-color: rgb(250, 91, 5, .5);
-} */
-.cardElem {
+} 
 
-
-}
-.selected {
-
-}
 .titles {
   display: flex;
   flex-direction: row;
@@ -80,14 +64,16 @@ body {
 }
 
 
-/* #flexBoard {
+#flexBoard {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
   height: 100%;
-} */
+}
 
-/* * {
+*/
+
+* {
   border: red 1px solid;
-} */
+}

@@ -1,6 +1,11 @@
-var mainDeck = [];
-var selectedSlots = [];
-var selectedCards = [];
+window.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOM fully loaded and parsed');
+});
+
+// GLOBAL VARIABLES
+var selectedSlots = []
+var selectedCards = []
+var mainDeck = []
 var cardsOnBoard = {
   0: null,
   1: null,
@@ -13,84 +18,180 @@ var cardsOnBoard = {
   8: null,
   9: null,
   10: null,
-  11: null
+  11: null,
+  12: null,
+  13: null,
+  14: null,
+  15: null,
+  16: null,
+  17: null
 };
 
-// Generate random cards
-function createCard() {
-  var colors = ['green', 'purple', 'red'];
-  var shapes = ['cylinder', 'diamond', 'squiggle'];
-  var fills = ['filled', 'outline', 'solid'];
-  var sizes = ['1', '2', '3'];
+// GENERATE A DECK OF 81 UNIQUE SET! CARDS
 
-  var colorIndex = Math.floor(Math.random() * 3);
-  var shapeIndex = Math.floor(Math.random() * 3);
-  var fillIndex = Math.floor(Math.random() * 3);
-  var sizeIndex = Math.floor(Math.random() * 3);
-  // var imgIndex = [];
-  return { shape: shapes[shapeIndex], color: colors[colorIndex], fill: fills[fillIndex], 
-    size: sizes[sizeIndex] };
+function createSetDeck() {
+  const color = ["red", "green", "purple"]
+  const shape = ["cylinder", "diamond", "squiggle"]
+  const fill = ["outline", "solid", "filled"]
+  const number = ["1", "2", "3"]
+
+  for (var c = 0; c < color.length; c++) {
+    for (var s = 0; s < shape.length; s++) {
+      for (var f = 0; f < fill.length; f++) {
+        for (var n = 0; n < number.length; n++) {
+          var card =( {
+          Color: color[c],
+          Shape: shape[s],
+          Fill: fill[f],
+          Number: number[n]} )
+          
+          mainDeck.push(card)
+        }      
+      }
+    }
+  }
+  return mainDeck
 }
-
-//  Push 81 random cards into the deck
-for (let i = 0; i < 81; i++) {
-  mainDeck.push(createCard());
+createSetDeck()
+  
+// SHUFFLE THE DECK WITH A FISHER-YATES SHUFFLE
+function shuffle (inputArr) {
+  var shuffledDeck = inputArr
+  for (var i = inputArr.length - 1; i >= 0; i--) {
+    var randomIndex = Math.floor(Math.random() * (i + 1))
+    var randomItem = shuffledDeck[randomIndex]
+    shuffledDeck[randomIndex] = shuffledDeck[i]
+    shuffledDeck[i] = randomItem
+  }
 }
-// console.log('maindeck ', mainDeck);
-var div;
+shuffle(mainDeck)
+console.log(mainDeck)  
+// DRAW A NUMBER OF CARDS FROM THE MAINDECK
+function draw(num) {
+  var drawn = mainDeck.splice(0, num)
+  return drawn
+}
+// DRAW A DOZEN INITIAL CARDS
+cardsOnBoard = new draw(12)
+console.log(cardsOnBoard)
+// console.log("Main deck: " + mainDeck[2])
+// console.log(cardsOnBoard)
 
-// Create the gameboard
-for (let i = 0; i < 12; i++) {
+// FOR LOOP TO LOAD THE CARDSONBOARD OBJECT
+// function fillTheCardsOnBoardObject() {
+//   for (let key in cardsOnBoard) {
+//     if (!cardsOnBoard[key]) {
+//       cardsOnBoard[key] = (draw(1)[0]);
+//     }
+//   }
+// }
+
+// CREATE THE GAMEBOARD OF 18 AVAILABLE CARD SLOTS
+for (let i = 0; i < 18; i++) {
   div = document.createElement('div');
   div.id = i;
-  div.classList.add("cardslot");
-  div.addEventListener('click', function (e) {
+  div.classList.add('cardslot');
+  div.addEventListener('click', function() 
+  {
     selectedSlots.push(this.id);
-    this.classList.add('green');
+    // this.classList.add('green');
   });
   document.body.appendChild(div);
 }
+
+// let cards = document.getElementsById('1')
+// console.log(cards)
+// POPULATE GAMEBOARD WITH 12 INITIAL CARDS
+
+// function iterate(currentValue) {
+//   console.log(currentValue)
+// }
+// Array.prototype.forEach.call(cardsOnBoard, iterate)
+// var cob = Array.from(cardsOnBoard)
+// for (var cob in cardsOnBoard) {
+//   console.log(cob + ": " + cardsOnBoard[cob])
+//   // console.log("Array Current Index is: " + cardsOnBoard[cob]);
+
+// }
+// console.log(props)
+//THE BELOW WORKS!
+function renderCardsOnBoard() {
+  for (let [key] of Object.keys(cardsOnBoard)) {
+    const shape = cardsOnBoard[key].Shape
+    const color = cardsOnBoard[key].Color
+    const fill = cardsOnBoard[key].Fill
+    const number = cardsOnBoard[key].Number
+    img = document.createElement('img')
+    img.classList.add('cardImage')
+    document.getElementById(key).appendChild(img);
+    document.getElementById(key).querySelector('.cardImage').src = './img/' + shape + '-' + color + '-' + fill + '-' + number + '.png'
+    console.log(img)
+  }
+}
+renderCardsOnBoard()
+// var card = document.getElementById(key).textContent = (key)
+// console.log(card)
+
+// function renderCardsOnBoard() {
+// }
+// function renderCardsOnBoard() {
+// // var str = '';
+//   for (let key in cardsOnBoard) {
+//     var card = document.getElementById(key).textContent = cardsOnBoard[key].color + '-' + cardsOnBoard[key].shape + '-' + cardsOnBoard[key].fill + '-' + cardsOnBoard[key].number;
+//     img = document.createElement('img');
+//     img.classList.add("cardImage");
+//     console.log(img);
+//     document.getElementById(key).appendChild(img);
+//     document.getElementById(key).querySelector('.cardImage').src = './img/' + cardsOnBoard[key].shape + '-' + cardsOnBoard[key].color + '-' + cardsOnBoard[key].fill + '-' + cardsOnBoard[key].number + '.png'
+//     console.log(card)
+//   }
+// }
+
+// console.log("this is mainDeck...", mainDeck);
+// fillTheCardsOnBoardObject();
+// console.log(cardsOnBoard[11])
+// renderCardsOnBoard();
+
+/* Create SET! button, listen for clicks, check SET!, 
+remove SET! cards, replace cards on board 
+*/
 var button = document.createElement("button");
 button.textContent = "SET!"
 button.addEventListener('click', function (e) {
-  setCheck();
-  removeSetCards();
-  fillTheCardsOnBoardObject();
-  renderCardsOnBoard();
-});
+  setCheck(e.target.selectedCards);
+  });
+removeSetCards();
+// fillTheCardsOnBoardObject();
+// renderCardsOnBoard();
 document.body.appendChild(button);
-
-// Draw a number of cards from the mainDeck
-function draw(num) {
-  return mainDeck.splice(0, num);
-}
-// console.log(mainDeck);
+// console.log(cardsOnBoard)
 
 function removeSetCards() {
   var setCards = [];
   selectedSlots.forEach(function (slotId) {
     setCards.push(Object.assign({}, cardsOnBoard[slotId]));
-    // console.log(selectedCards)
-});
+    console.log(selectedCards)
+  });
+  // console.log("These are the Set cards ", setCards)
 }
 
-  
-// Here you would check to see if it is a set
-// Evaluates selectedCards for a set
+/* Here you would check to see if it is a set
+  Evaluates selectedCards for a set
+*/
 
-// function cardSelectHandler() {
-//   // console.log('length', selectedCards.length)
-//   if (selectedCards.length != 2) {
-//     // console.log('not long enough, push it')
-//     selectedCards.push(event.target.dataset);
-//   }
-//   else if (selectedCards.length = 2) {
-//     selectedCards.push(event.target.dataset);
-//     // console.log('hey! check the set')
-//     setCheck(selectedCards);
-//     selectedCards = [] //reset the array
-//   }
-// }
+function cardSelectHandler() {
+  // console.log('length', selectedCards.length)
+  if (selectedCards.length < 3) {
+    // console.log('not long enough, push it')
+    selectedCards.push(dataset);
+  } else {
+    selectedCards.push(dataset);
+    // console.log('hey! check the set')
+    setCheck(selectedCards);
+    selectedCards = [] //reset the array
+    console.log(selectedCards)
+  }
+}
 function setCheck(dataSet) {
   //if set is true
   if (checkColor(dataSet) && checkShape(dataSet) && checkFill(dataSet) && checkNumber(dataSet)) {
@@ -157,30 +258,3 @@ function checkNumber(setCards) {
     cardsOnBoard[slotId] = null;
   });
   // document.getElementsByClassName('cardslot').classList.remove('green');
-
-//something
-
-function fillTheCardsOnBoardObject() {
-  for (let key in cardsOnBoard) {
-    if (!cardsOnBoard[key]) {
-      cardsOnBoard[key] = draw(1)[0];
-      // console.log("This is the cardsOnBoard object ", cardsOnBoard[key]);
-    }
-  }
-}
-
-function renderCardsOnBoard() {
-  var str = '';
-  for (let key in cardsOnBoard) {
-    document.getElementById(key).textContent = cardsOnBoard[key].shape + '-' + cardsOnBoard[key].color + '-' + cardsOnBoard[key].fill + '-' + cardsOnBoard[key].size;
-    img = document.createElement('img');
-    img.classList.add("cardImage");
-    // console.log(img);
-    document.getElementById(key).appendChild(img);
-    document.getElementById(key).querySelector('.cardImage').src = './img/' + cardsOnBoard[key].shape + '-' + cardsOnBoard[key].color + '-' + cardsOnBoard[key].fill + '-' + cardsOnBoard[key].size + '.png';
-  }
-}
-// console.log("this is mainDeck...", mainDeck);
-fillTheCardsOnBoardObject();
-renderCardsOnBoard();
-
