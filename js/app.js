@@ -1,7 +1,3 @@
-window.addEventListener('DOMContentLoaded', (event) => {
-  console.log('DOM fully loaded and parsed')
-})
-
 // GLOBAL VARIABLES
 var selectedSlots = []
 var selectedCards = []
@@ -64,7 +60,7 @@ function shuffle (inputArr) {
   }
 }
 shuffle(mainDeck)
-console.log(mainDeck)  
+
 // DRAW A NUMBER OF CARDS FROM THE MAINDECK
 function draw(num) {
   var drawn = mainDeck.splice(0, num)
@@ -72,12 +68,9 @@ function draw(num) {
 }
 // DRAW A DOZEN INITIAL CARDS
 cardsOnBoard = draw(12)
-console.log(mainDeck)
-console.log(cardsOnBoard)
-// console.log("Main deck: " + mainDeck[2])
-// console.log(cardsOnBoard)
 
 // FOR LOOP TO LOAD THE CARDSONBOARD OBJECT
+// SEEMS TO BE UNNECESSARY
 // function fillTheCardsOnBoardObject() {
 //   for (let key in cardsOnBoard) {
 //     if (!cardsOnBoard[key]) {
@@ -91,7 +84,7 @@ for (let i = 0 ; i < 18 ; i++) {
   div = document.createElement('div')
   div.id = i
   div.classList.add('cardslot')
-  div.addEventListener('click', function() 
+  div.addEventListener('click', function(e)
   {
     selectedSlots.push(this.id)
     // this.classList.add('green')
@@ -109,37 +102,95 @@ function renderCardsOnBoard() {
     img = document.createElement('img')
     img.classList.add('cardImage')
     document.getElementById(key).appendChild(img)
-    document.getElementById(key).querySelector('.cardImage').src = './img/' + shape + '-' + color + '-' + fill + '-' + number + '.png'
-    console.log(img)
+    document.getElementById(key).querySelector('.cardImage').src = './img/' + 
+      shape + '-' + 
+      color + '-' + 
+      fill + '-' + 
+      number + '.png'
   }
 }
 renderCardsOnBoard()
-// var card = document.getElementById(key).textContent = (key)
 
-/* Create SET! button, listen for clicks, check SET!, 
-remove SET! cards, replace cards on board 
-*/
-var button = document.createElement("button")
-button.textContent = "SET!"
-button.addEventListener('click', function (e) {
-  setCheck(e.target.selectedCards)
-  })
-removeSetCards()
-document.body.appendChild(button)
-// console.log(cardsOnBoard)
+// WRAP THE CARDSLOTS IN A DIV CALLED GAMEBOARD
+var cards = document.getElementsByTagName('div')
+var gameboard = document.createElement('div')
+gameboard.classList.add('gameboard')
+wrapAll(cards, gameboard)
 
-function removeSetCards() {
-  var setCards = []
-  selectedSlots.forEach(function (slotId) {
-    setCards.push(Object.assign({}, cardsOnBoard[slotId]))
-    console.log(selectedCards)
-  })
-  // console.log("These are the Set cards ", setCards)
+function wrapAll(nodes, wrapper) {
+  // cache the current parent and previous sibling of the first node
+  var parent = nodes[0].parentNode
+  var previousSibling = nodes[0].previousSibling
+  /* place each node in a wrapper
+  - if node is an array, we must increment the index we grab from
+    after each loop.
+  - if node is a NodeList, each node is automatically removed from the 
+    NodeList when it's removed from its parent with appendChild.
+  */
+  for (var i = 0; nodes.length ; wrapper.firstChild === nodes[0] && i++) {
+    wrapper.appendChild(nodes[i])
+  }
+  console.log(wrapper, previousSibling)
+  /* place the wrapper just after the cached previousSibling
+  or if that's null, just before the first */
+  var nextSibling = previousSibling ? previousSibling.nextSibling : parent.firstChild
+  parent.insertBefore(wrapper, nextSibling)
+  
+  return wrapper
 }
+console.log(cards)
 
-/* Here you would check to see if it is a set
-  Evaluates selectedCards for a set
-*/
+// SELECT A MAXIMUM OF THREE CARDS TO BE EVALUATED AS A SET!
+
+var selectCards = document.getElementsByClassName('cardslot')
+function selectCards() {
+  if(Array.isArray(selectCards)) {
+    return []
+  }
+    //   for (var i = 0; i < selectCards.length; i++) {
+    //     console.log(selectCards[i])
+    // //     selectCards[i].addEventListener('click', (e) => {
+    //   //       var clickedItem = e.target
+    //   //       alert('Hello' + clickedItem)
+    // }
+    // console.log(selectCards)
+    
+    //   }
+    
+    // }
+    
+    // for (var i = 0; i = cardsOnBoard.length; i++) {
+      //   cardsOnBoard[i].addEventListener('click', (e) => {
+//     if (e.target !== currentTarget) {
+//       var clickedItem = e.target.id
+//       console.log(clickedItem)
+//       alert ("Hello" + clickedItem)
+//     }
+//     // e.stopPropagation()
+//   })
+// }
+
+// var theParent = document.querySelector('.gameboard')
+// theParent.addEventListener('click', doSomething, false) 
+
+// function doSomething(e) {
+
+//     if (e.target !== e.currentTarget) {
+//       var clickedItem = e.target.id
+//       alert("Hello" + clickedItem)
+//     }
+//   e.stopPropagation()
+// }
+// function selectCards () {
+  
+// }
+// var selected = function() {
+//   document.getElementsById('img'[0])
+//   selected.addEventListener('click', function (e) {
+//     selectedCards.push(selected)
+//     console.log('onClick' + e.target.selected)
+//   })
+// }
 
 function cardSelectHandler() {
   // console.log('length', selectedCards.length)
@@ -148,12 +199,36 @@ function cardSelectHandler() {
     selectedCards.push(dataset)
   } else {
     selectedCards.push(dataset)
-    // console.log('hey! check the set')
-    setCheck(selectedCards)
-    selectedCards = [] //reset the array
-    console.log(selectedCards)
+    console.log('hey! check the set')
+    // setCheck(selectedCards)
+    // selectedCards = [] //reset the array
   }
 }
+/* Create SET! button, listen for clicks, check SET!, 
+remove SET! cards, replace cards on board 
+*/
+var button = document.createElement('button')
+button.textContent = 'SET!'
+button.classList = 'btn btn-primary btn-sm'
+button.addEventListener('click', function (e) {
+  setCheck(e.target.selectedCards)
+  })
+removeSetCards()
+document.body.appendChild(button)
+
+function removeSetCards() {
+  var setCards = []
+  selectedSlots.forEach(function (slotId) {
+    setCards.push(Object.assign({}, cardsOnBoard[slotId]))
+    console.log(selectedCards)
+  })
+  console.log("These are the Set cards ", setCards)
+}
+
+/* Here you would check to see if it is a set
+  Evaluates selectedCards for a set
+*/
+
 function setCheck(dataSet) {
   //if set is true
   if (checkColor(dataSet) && checkShape(dataSet) && checkFill(dataSet) && checkNumber(dataSet)) {
@@ -168,7 +243,7 @@ function checkColor(setCards) {
   if (setCards[0].color == setCards[1].color && setCards[0].color == setCards[2].color && setCards[1].color == setCards[2].color) {
     console.log('first true color statement hit!')
     return true
-  } else if (setCards[0].color != setCards[1].color && setCards[0].color != setCards[2].color && selectedCards[1].color != selectedCards[2].color) {
+  } else if (setCards[0].color != setCards[1].color && setCards[0].color != setCards[2].color && setCards[1].color != setCards[2].color) {
     console.log('second true color statement!!')
     return true
   } else {
@@ -220,3 +295,7 @@ function checkNumber(setCards) {
     cardsOnBoard[slotId] = null
   })
   // document.getElementsByClassName('cardslot').classList.remove('green')
+
+  window.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded and parsed')
+  })

@@ -46,7 +46,7 @@ body {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
-
+*/
 .buttons {
   background-color: #D6AC20;
   text-align: center;
@@ -55,7 +55,7 @@ body {
   grid-row-start: 5;
   grid-row-end: 5;
 }
-
+/*
 .scores {
   grid-column-start: 1;
   grid-column-end: 1;
