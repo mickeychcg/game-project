@@ -1,23 +1,28 @@
 body {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   font-family: 'Roboto', sans-serif;
   height: 100%;
   margin: auto;
 }
-/* .gameboard {
-  grid-column-start: 2;
-}  */
-.header {
-  padding: 15px;
+.gameboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-start: 1;
   grid-column-end: 4;
+}
+.header {
+  padding: 15px;
   background-color: #FFC503;
   height: 100px;
 }
+.btn {
+  background-color: #D6AC20;
+  /* text-align: center; */
+  grid-column-start: 1;
+}
 .cardslot {
-  height: auto;
-  
+  /* justify-content: center; */
+  /* grid-column-start: 1;
+  grid-column-end: 3; */
 }
 /*
 .cardElem {
@@ -47,14 +52,6 @@ body {
   -webkit-text-stroke-color: black;
 }
 */
-.buttons {
-  background-color: #D6AC20;
-  text-align: center;
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 5;
-  grid-row-end: 5;
-}
 /*
 .scores {
   grid-column-start: 1;
@@ -63,7 +60,6 @@ body {
   grid-row-end:4;
 }
 
-
 #flexBoard {
   display: flex;
   flex-direction: row;
@@ -71,9 +67,7 @@ body {
   justify-content: space-around;
   height: 100%;
 }
-
 */
-
-* {
+/* * {
   border: red 1px solid;
-}
+} */

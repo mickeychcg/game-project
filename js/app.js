@@ -69,28 +69,44 @@ function draw(num) {
 // DRAW A DOZEN INITIAL CARDS
 cardsOnBoard = draw(12)
 
-// FOR LOOP TO LOAD THE CARDSONBOARD OBJECT
-// SEEMS TO BE UNNECESSARY
-// function fillTheCardsOnBoardObject() {
-//   for (let key in cardsOnBoard) {
-//     if (!cardsOnBoard[key]) {
-//       cardsOnBoard[key] = (draw(1)[0])
-//     }
-//   }
-// }
-
 // CREATE THE GAMEBOARD OF 18 AVAILABLE CARD SLOTS
 for (let i = 0 ; i < 18 ; i++) {
   div = document.createElement('div')
   div.id = i
   div.classList.add('cardslot')
-  div.addEventListener('click', function(e)
-  {
-    selectedSlots.push(this.id)
-    // this.classList.add('green')
-  })
+  // div.addEventListener('click', function(e)
+  // {
+  //   selectedSlots.push(this.id)
+  // })
   document.body.appendChild(div)
 }
+// WRAP THE CARDSLOTS IN A DIV CLASS: GAMEBOARD
+var cards = document.getElementsByTagName('div')
+var gameboard = document.createElement('div')
+gameboard.classList.add('gameboard')
+
+
+function wrapAll(nodes, wrapper) {
+  // cache the current parent and previous sibling of the first node
+  var parent = nodes[0].parentNode
+  var previousSibling = nodes[0].previousSibling
+  /* place each node in a wrapper
+  - if node is an array, we must increment the index we grab from
+  after each loop.
+  - if node is a NodeList, each node is automatically removed from the 
+  NodeList when it's removed from its parent with appendChild.
+  */
+for (var i = 0; nodes.length ; wrapper.firstChild === nodes[0] && i++) {
+  wrapper.appendChild(nodes[i])
+  }
+  /* place the wrapper just after the cached previousSibling
+  or if that's null, just before the first */
+  var nextSibling = previousSibling ? previousSibling.nextSibling : parent.firstChild
+  parent.insertBefore(wrapper, nextSibling)
+  
+  return wrapper
+}
+wrapAll(cards, gameboard)
 
 // POPULATE GAMEBOARD WITH 12 INITIAL CARDS
 function renderCardsOnBoard() {
@@ -111,87 +127,24 @@ function renderCardsOnBoard() {
 }
 renderCardsOnBoard()
 
-// WRAP THE CARDSLOTS IN A DIV CALLED GAMEBOARD
-var cards = document.getElementsByTagName('div')
-var gameboard = document.createElement('div')
-gameboard.classList.add('gameboard')
-wrapAll(cards, gameboard)
-
-function wrapAll(nodes, wrapper) {
-  // cache the current parent and previous sibling of the first node
-  var parent = nodes[0].parentNode
-  var previousSibling = nodes[0].previousSibling
-  /* place each node in a wrapper
-  - if node is an array, we must increment the index we grab from
-    after each loop.
-  - if node is a NodeList, each node is automatically removed from the 
-    NodeList when it's removed from its parent with appendChild.
-  */
-  for (var i = 0; nodes.length ; wrapper.firstChild === nodes[0] && i++) {
-    wrapper.appendChild(nodes[i])
-  }
-  console.log(wrapper, previousSibling)
-  /* place the wrapper just after the cached previousSibling
-  or if that's null, just before the first */
-  var nextSibling = previousSibling ? previousSibling.nextSibling : parent.firstChild
-  parent.insertBefore(wrapper, nextSibling)
-  
-  return wrapper
-}
-console.log(cards)
-
 // SELECT A MAXIMUM OF THREE CARDS TO BE EVALUATED AS A SET!
-
-var selectCards = document.getElementsByClassName('cardslot')
 function selectCards() {
-  if(Array.isArray(selectCards)) {
-    return []
+  var selectCards = Array.prototype.slice.call(document.getElementsByTagName('gameboard'))
+
+  for (var i = 0; i < selectCards.length; i++) {
+    selectCards[i].addEventListener('click', (e) => {
+      var clickedItem = e.target
+      if (selectedCards.length < 3) {
+        selectCards.push(clickedItem)
+      } else {
+        selectCards.push(clickedItem)
+        console.log("Select cards: " + clickedItem[i])
+        // alert('These are the selected cards: ' + clickedItem)
+      }
+    })
   }
-    //   for (var i = 0; i < selectCards.length; i++) {
-    //     console.log(selectCards[i])
-    // //     selectCards[i].addEventListener('click', (e) => {
-    //   //       var clickedItem = e.target
-    //   //       alert('Hello' + clickedItem)
-    // }
-    // console.log(selectCards)
-    
-    //   }
-    
-    // }
-    
-    // for (var i = 0; i = cardsOnBoard.length; i++) {
-      //   cardsOnBoard[i].addEventListener('click', (e) => {
-//     if (e.target !== currentTarget) {
-//       var clickedItem = e.target.id
-//       console.log(clickedItem)
-//       alert ("Hello" + clickedItem)
-//     }
-//     // e.stopPropagation()
-//   })
-// }
-
-// var theParent = document.querySelector('.gameboard')
-// theParent.addEventListener('click', doSomething, false) 
-
-// function doSomething(e) {
-
-//     if (e.target !== e.currentTarget) {
-//       var clickedItem = e.target.id
-//       alert("Hello" + clickedItem)
-//     }
-//   e.stopPropagation()
-// }
-// function selectCards () {
-  
-// }
-// var selected = function() {
-//   document.getElementsById('img'[0])
-//   selected.addEventListener('click', function (e) {
-//     selectedCards.push(selected)
-//     console.log('onClick' + e.target.selected)
-//   })
-// }
-
+}
+selectCards()
 function cardSelectHandler() {
   // console.log('length', selectedCards.length)
   if (selectedCards.length < 3) {
@@ -200,7 +153,7 @@ function cardSelectHandler() {
   } else {
     selectedCards.push(dataset)
     console.log('hey! check the set')
-    // setCheck(selectedCards)
+    setCheck(selectedCards)
     // selectedCards = [] //reset the array
   }
 }
@@ -209,7 +162,7 @@ remove SET! cards, replace cards on board
 */
 var button = document.createElement('button')
 button.textContent = 'SET!'
-button.classList = 'btn btn-primary btn-sm'
+button.classList = 'btn btn-primary'
 button.addEventListener('click', function (e) {
   setCheck(e.target.selectedCards)
   })
@@ -220,9 +173,7 @@ function removeSetCards() {
   var setCards = []
   selectedSlots.forEach(function (slotId) {
     setCards.push(Object.assign({}, cardsOnBoard[slotId]))
-    console.log(selectedCards)
   })
-  console.log("These are the Set cards ", setCards)
 }
 
 /* Here you would check to see if it is a set
